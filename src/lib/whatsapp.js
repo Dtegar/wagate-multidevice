@@ -1,84 +1,108 @@
-const { Client, LocalAuth } = require('whatsapp-web.js');
+const { Client } = require('whatsapp-web.js');
+const db = require('./db');
 
 class WhatsAppService {
   constructor() {
-    this.client = null;
-    this.qr = null;
-    this.status = 'disconnected';
+    this.sessions = new Map();
   }
 
-  initialize() {
-    if (this.client) {
-      console.log('Client already initialized');
+  async createSession(sessionName, phoneNumber) {
+    try {
+      const [result] = await db.execute(
+        'INSERT INTO whatsapp_sessions (session_name, phone_number) VALUES (?, ?)',
+        [sessionName, phoneNumber]
+      );
+      return result.insertId;
+    } catch (error) {
+      console.error('Error creating session:', error);
+      throw error;
+    }
+  }
+
+  async initialize(sessionId) {
+    if (this.sessions.has(sessionId)) {
+      console.log(`Session ${sessionId} already initialized`);
       return;
     }
 
-    console.log('Initializing WhatsApp client...');
-    
-    this.client = new Client({
-      authStrategy: new LocalAuth(),
+    const client = new Client({
       puppeteer: {
         headless: true,
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       }
     });
 
-    this.client.on('qr', (qr) => {
-      console.log('QR Code received');
-      this.qr = qr;
-      this.status = 'qr';
+    client.on('qr', async (qr) => {
+      console.log(`QR Code received for session ${sessionId}`);
+      await db.execute(
+        'UPDATE whatsapp_sessions SET status = ?, qr_code = ? WHERE id = ?',
+        ['qr', qr, sessionId]
+      );
     });
 
-    this.client.on('ready', () => {
-      this.status = 'connected';
-      this.qr = null;
-      console.log('Client is ready!');
+    client.on('ready', async () => {
+      await db.execute(
+        'UPDATE whatsapp_sessions SET status = ?, qr_code = NULL WHERE id = ?',
+        ['connected', sessionId]
+      );
+      console.log(`Client ${sessionId} is ready!`);
     });
 
-    this.client.on('disconnected', () => {
-      this.status = 'disconnected';
-      this.qr = null;
-      console.log('Client disconnected');
-    });
-
-    this.client.on('message', async msg => {
+    client.on('message', async msg => {
       try {
+        // Log pesan masuk
+        await db.execute(
+          'INSERT INTO whatsapp_messages (session_id, message_type, from_number, to_number, message_content) VALUES (?, ?, ?, ?, ?)',
+          [sessionId, 'incoming', msg.from, msg.to, msg.body]
+        );
+
         if (msg.body === 'ping') {
           await msg.reply('pong');
-        } else if (msg.body === 'hallo') {
-          await msg.reply('hallo juga');
+          // Log pesan keluar
+          await db.execute(
+            'INSERT INTO whatsapp_messages (session_id, message_type, from_number, to_number, message_content) VALUES (?, ?, ?, ?, ?)',
+            [sessionId, 'outgoing', msg.to, msg.from, 'pong']
+          );
         }
       } catch (error) {
         console.error('Error handling message:', error);
       }
     });
 
-    this.client.on('auth_failure', () => {
-      this.status = 'disconnected';
-      this.qr = null;
-      console.log('Auth failure, restarting...');
-    });
-
+    this.sessions.set(sessionId, client);
     try {
-      this.client.initialize();
+      await client.initialize();
     } catch (error) {
-      console.error('Failed to initialize client:', error);
-      this.status = 'error';
+      console.error(`Failed to initialize client ${sessionId}:`, error);
+      await db.execute(
+        'UPDATE whatsapp_sessions SET status = ? WHERE id = ?',
+        ['error', sessionId]
+      );
     }
   }
 
-  async deleteSession() {
+  async deleteSession(sessionId) {
     try {
-      if (this.client) {
-        await this.client.destroy();
-        this.client = null;
-        this.qr = null;
-        this.status = 'disconnected';
-        console.log('Session deleted successfully');
+      const client = this.sessions.get(sessionId);
+      if (client) {
+        await client.destroy();
+        this.sessions.delete(sessionId);
       }
+      await db.execute('DELETE FROM whatsapp_sessions WHERE id = ?', [sessionId]);
+      console.log(`Session ${sessionId} deleted successfully`);
     } catch (error) {
-      console.error('Failed to delete session:', error);
-      this.status = 'error';
+      console.error(`Failed to delete session ${sessionId}:`, error);
+      throw error;
+    }
+  }
+
+  async getAllSessions() {
+    try {
+      const [rows] = await db.execute('SELECT * FROM whatsapp_sessions');
+      return rows;
+    } catch (error) {
+      console.error('Error getting sessions:', error);
+      throw error;
     }
   }
 }
