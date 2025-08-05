@@ -1,0 +1,6 @@
+2025/08/05-11:01:41.161 5780 Reusing MANIFEST D:\TOPSELL\IT-DEV\DtegarDev\NextJs\wagate\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/08/05-11:01:41.162 5780 Recovering log #3
+2025/08/05-11:01:41.164 5780 Reusing old log D:\TOPSELL\IT-DEV\DtegarDev\NextJs\wagate\.wwebjs_auth\session\Default\Local Storage\leveldb/000003.log 
+2025/08/05-11:03:43.223 a1b4 Level-0 table #5: started
+2025/08/05-11:03:43.242 a1b4 Level-0 table #5: 22757 bytes OK
+2025/08/05-11:03:43.245 a1b4 Delete type=0 #3

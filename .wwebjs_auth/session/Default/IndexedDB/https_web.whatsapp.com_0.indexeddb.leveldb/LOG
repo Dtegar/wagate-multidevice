@@ -1,0 +1,17 @@
+2025/08/05-11:01:42.910 5538 Reusing MANIFEST D:\TOPSELL\IT-DEV\DtegarDev\NextJs\wagate\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/05-11:01:42.912 5538 Recovering log #419
+2025/08/05-11:01:43.134 5538 Reusing old log D:\TOPSELL\IT-DEV\DtegarDev\NextJs\wagate\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000419.log 
+2025/08/05-11:01:47.112 6f6c Level-0 table #426: started
+2025/08/05-11:01:47.152 6f6c Level-0 table #426: 366840 bytes OK
+2025/08/05-11:01:47.171 6f6c Delete type=0 #419
+2025/08/05-11:01:47.173 6f6c Manual compaction at level-0 from '\x00\x8a\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x8b\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/05-11:01:53.490 a1b4 Compacting 1@1 + 3@2 files
+2025/08/05-11:01:53.662 a1b4 Generated table #427@1: 49744 keys, 2208569 bytes
+2025/08/05-11:01:53.829 a1b4 Generated table #428@1: 34801 keys, 2199678 bytes
+2025/08/05-11:01:53.870 a1b4 Generated table #429@1: 10881 keys, 213358 bytes
+2025/08/05-11:01:53.870 a1b4 Compacted 1@1 + 3@2 files => 4621605 bytes
+2025/08/05-11:01:53.871 a1b4 compacted to: files[ 0 0 3 0 0 0 0 ]
+2025/08/05-11:01:53.871 a1b4 Delete type=2 #421
+2025/08/05-11:01:53.871 a1b4 Delete type=2 #422
+2025/08/05-11:01:53.872 a1b4 Delete type=2 #423
+2025/08/05-11:01:53.872 a1b4 Delete type=2 #426

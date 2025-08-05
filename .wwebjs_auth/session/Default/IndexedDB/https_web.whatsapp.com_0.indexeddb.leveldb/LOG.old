@@ -1,0 +1,17 @@
+2025/08/05-10:57:12.439 5804 Reusing MANIFEST D:\TOPSELL\IT-DEV\DtegarDev\wagate\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/08/05-10:57:12.441 5804 Recovering log #413
+2025/08/05-10:57:12.587 5804 Reusing old log D:\TOPSELL\IT-DEV\DtegarDev\wagate\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000413.log 
+2025/08/05-10:57:16.940 10b4 Level-0 table #420: started
+2025/08/05-10:57:16.968 10b4 Level-0 table #420: 223285 bytes OK
+2025/08/05-10:57:16.973 10b4 Delete type=0 #413
+2025/08/05-10:57:16.974 10b4 Manual compaction at level-0 from '\x00\x89\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x8a\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/08/05-10:57:25.185 d3c Compacting 1@1 + 3@2 files
+2025/08/05-10:57:25.405 d3c Generated table #421@1: 47741 keys, 2205404 bytes
+2025/08/05-10:57:25.645 d3c Generated table #422@1: 34544 keys, 2201090 bytes
+2025/08/05-10:57:25.697 d3c Generated table #423@1: 11915 keys, 236083 bytes
+2025/08/05-10:57:25.697 d3c Compacted 1@1 + 3@2 files => 4642577 bytes
+2025/08/05-10:57:25.698 d3c compacted to: files[ 0 0 3 0 0 0 0 ]
+2025/08/05-10:57:25.699 d3c Delete type=2 #415
+2025/08/05-10:57:25.699 d3c Delete type=2 #416
+2025/08/05-10:57:25.699 d3c Delete type=2 #417
+2025/08/05-10:57:25.699 d3c Delete type=2 #420
